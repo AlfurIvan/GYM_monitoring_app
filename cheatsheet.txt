@@ -1,1 +1,17 @@
-sudo docker-compose up -d --build
+pip freeze > api/requirements.txt
+
+sudo docker-compose up -d --build                                   #build-images-and-create-all
+sudo docker-compose down -v                                         #drop-all
+sudo docker-compose exec web python manage.py migrate --noinput     #create-db-tables-and-relations
+sudo docker-compose exec db psql --username=post --dbname=gym_dev   #psql interface
+sudo docker volume inspect gym_monitoring_app_postgres_data         #volume
+
+chmod +x api/entrypoint.sh      # if u add entrypoint -- change mod!
+
+_______________________PRODUCTION_DEPLOY____________________
+sudo docker-compose -f docker-compose.prod.yml up -d --build
+sudo docker-compose -f docker-compose.prod.yml down -v
+sudo docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
+sudo docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear #copy statfls
+
+docker-compose -f docker-compose.prod.yml logs -f #LOGS
