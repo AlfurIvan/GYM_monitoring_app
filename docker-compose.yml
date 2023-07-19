@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  web:
+  api:
     build: ./api
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -20,6 +20,12 @@ services:
       - POSTGRES_USER=post
       - POSTGRES_PASSWORD=gres
       - POSTGRES_DB=gym_dev
+  web:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend
 
 volumes:
   postgres_data:
