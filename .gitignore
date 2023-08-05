@@ -2,3 +2,6 @@
 db.sqlite3
 /.env.prod
 /.env.prod.db
+/api/user/migrations/
+/api/gym_monitor/migrations/
+/api/gym_store/migrations/
