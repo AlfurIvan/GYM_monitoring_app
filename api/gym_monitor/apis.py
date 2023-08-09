@@ -4,7 +4,7 @@ from datetime import datetime
 from rest_framework import generics
 
 from .models import News
-from .serializers import NewsSerializer
+from .serializer import NewsSerializer
 
 
 def date_and_time(request):

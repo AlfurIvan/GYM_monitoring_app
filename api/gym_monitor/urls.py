@@ -1,12 +1,12 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from . import views
+from . import apis
 
 app_name = "gym_monitor"
 urlpatterns = [
-    path('dt/', views.date_and_time),
-    path('', views.NewsList.as_view()),
-    path('<int:pk>/', views.NewsDetail.as_view()),
+    path('dt/', apis.date_and_time),
+    path('', apis.NewsList.as_view()),
+    path('<int:pk>/', apis.NewsDetail.as_view()),
     # path()
 ]
 

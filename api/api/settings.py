@@ -140,6 +140,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ORIGIN_WHITELIST = ['http://localhost:3000', 'http://0.0.0.0:3000']
 
 AUTH_USER_MODEL = "user.User"
+PASS_MODEL = "gym_store.Pass"
+# PROD_MODEL
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
