@@ -19,6 +19,11 @@ docker-compose -f docker-compose.prod.yml logs -f #LOGS
 
 _______________TEST_DATA__________________
 {
+"email": "admin@gmail.com",
+"password": "123"
+}
+
+{
 "first_name": "John",
 "last_name": "Doe",
 "email": "john@gmail.com",
@@ -30,4 +35,12 @@ _______________TEST_DATA__________________
 "last_name": "Doe",
 "email": "ann@gmail.com",
 "password": "123123"
+}
+
+{
+"first_name": "Pin",
+"last_name": "Doe",
+"email": "pin@gmail.com",
+"password": "123123",
+"is_staff": false
 }

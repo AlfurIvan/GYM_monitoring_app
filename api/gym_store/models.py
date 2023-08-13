@@ -23,9 +23,9 @@ class Pass(models.Model):
 
     def pass_is_expired(self):
         date = self.date_released
-        mon_am = self.month_to_expire
+        mon_amount = self.month_to_expire
         return (datetime.now() >= date.to_python(value=date) +
-                timedelta(days=mon_am.to_python(mon_am) * 30))
+                timedelta(days=mon_amount.to_python(mon_amount) * 30))
 
 
 class Product(models.Model):

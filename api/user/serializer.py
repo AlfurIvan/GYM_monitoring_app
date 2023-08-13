@@ -9,6 +9,7 @@ class UserSerializer(serializers.Serializer):
     last_name = serializers.CharField()
     email = serializers.CharField()
     password = serializers.CharField(write_only=True)
+    is_staff = serializers.BooleanField()
 
     def to_internal_value(self, data):
         data = super().to_internal_value(data)

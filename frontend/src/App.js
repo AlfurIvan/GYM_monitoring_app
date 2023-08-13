@@ -5,7 +5,7 @@ function App() {
   const [currentTime, setCurrentTime] = useState(0);
   const [currentDate, setCurrentDate] = useState(0);
   useEffect(() => {
-  fetch(' http://0.0.0.0:8000/gym/dt/').then(res => res.json()).then(data => {
+  fetch(' http://0.0.0.0:8000/dt/').then(res => res.json()).then(data => {
       setCurrentTime(data.time);
       setCurrentDate(data.date)
     });
