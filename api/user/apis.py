@@ -1,7 +1,7 @@
 from rest_framework import views, response, exceptions, permissions
 
 
-from gym_store import serializer as pass_serializer
+from gym_store import serializer as store_serializer
 from gym_store import models as store_models
 
 from . import serializer as user_serializer
@@ -94,27 +94,24 @@ class UserApi(views.APIView):
 
         try:
             pass_obj = store_models.Pass.objects.get(user=user)
-            serializer = pass_serializer.PassSerializer(pass_obj)
+            serializer = store_serializer.PassSerializer(pass_obj)
             return response.Response(serializer.data)
         except store_models.Pass.DoesNotExist:
-            serializer_user = user_serializer.UserSerializer(user)
-            serializer = serializer_user
+            serializer = user_serializer.UserSerializer(user)
             return response.Response({"user": serializer.data})
 
 
-class StaffAPI(views.APIView):
+class StaffPassesAPI(views.APIView):
 
     authentication_classes = (authentication.CustomUserAuthentication,)
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
 
     def get(self, request):
         user = request.user
-
         try:
-            pass_obj = store_models.Pass.objects.get(staff_who_released=user)
-            serializer = pass_serializer.PassSerializer(pass_obj)
+            pass_obj = store_models.Pass.objects.filter(staff_who_released=request.user)
+            serializer = store_serializer.PassSerializer(pass_obj, many=True)
             return response.Response(serializer.data)
         except store_models.Pass.DoesNotExist:
-            serializer_user = user_serializer.UserSerializer(user)
-            serializer = serializer_user
+            serializer = user_serializer.UserSerializer(user)
             return response.Response({"staff_who_released": serializer.data})

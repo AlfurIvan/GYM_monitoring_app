@@ -21,11 +21,10 @@ class Pass(models.Model):
         related_name="passes_released"
     )
 
-    def pass_is_expired(self):
+    def pass_is_expired(self) -> bool:
         date = self.date_released
-        mon_amount = self.month_to_expire
-        return (datetime.now() >= date.to_python(value=date) +
-                timedelta(days=mon_amount.to_python(mon_amount) * 30))
+        month = self.month_to_expire
+        return datetime.now() >= date.to_python(date) + timedelta(days=(month.to_python(month) * 31))
 
 
 class Product(models.Model):

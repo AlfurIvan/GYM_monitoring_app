@@ -27,14 +27,16 @@ _______________TEST_DATA__________________
 "first_name": "John",
 "last_name": "Doe",
 "email": "john@gmail.com",
-"password": "123123"
+"password": "123123",
+"is_staff": false
 }
 
 {
 "first_name": "Ann",
 "last_name": "Doe",
 "email": "ann@gmail.com",
-"password": "123123"
+"password": "123123",
+"is_staff": false
 }
 
 {

@@ -1,10 +1,9 @@
-from django.http import JsonResponse
 from datetime import datetime
-
+from django.http import JsonResponse
 from rest_framework import generics
 
-from .models import News
-from .serializer import NewsSerializer
+from . import models
+from . import serializer
 
 
 def date_and_time(request):
@@ -19,16 +18,26 @@ def date_and_time(request):
     return JsonResponse(data)
 
 
-class NewsList(generics.ListCreateAPIView):
+class NewsList(generics.ListAPIView):
     """
     """
-    queryset = News.objects.all()
-    serializer_class = NewsSerializer
+    queryset = models.News.objects.all()
+    serializer_class = serializer.NewsSerializer
 
 
 class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a code snippet.
     """
-    queryset = News.objects.all()
-    serializer_class = NewsSerializer
+    queryset = models.News.objects.all()
+    serializer_class = serializer.NewsSerializer
+
+
+class TrainingProgramList(generics.ListAPIView):
+    queryset = models.TrainingProgram.objects.all()
+    serializer_class = serializer.TrainingProgramSerializer
+
+
+class TrainingProgramDetail(generics.RetrieveAPIView):
+    queryset = models.TrainingProgram.objects.all()
+    serializer_class = serializer.TrainingProgramSerializer

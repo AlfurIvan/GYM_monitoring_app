@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import News
+from . import services
 
 
 class NewsSerializer(serializers.Serializer):
@@ -10,19 +10,20 @@ class NewsSerializer(serializers.Serializer):
     pub_date = serializers.DateTimeField()
     # image = serializers.ImageField
 
-    def create(self, validated_data):
-        """
-        Create and return a new 'News' instance given the validated data.
-        """
-        return News.objects.create(**validated_data)
+    def to_internal_value(self, data):
+        data = super().to_internal_value(data)
+        return services.NewsDataClass(**data)
 
-    def update(self, instance, validated_data):
-        instance.title = validated_data.get('title', instance.title)
-        instance.body = validated_data.get('title', instance.body)
-        instance.pub_date = validated_data.get('title', instance.pub_date)
-        # instance.image = validated_data.get('title', instance.image)
 
-    class Meta:
-        model = News
-        fields = ['title', 'body', 'pub_date']
-        # ,'image'
+class TrainingProgramSerializer(serializers.Serializer):
+    """
+
+    """
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=255)
+    body = serializers.CharField(max_length=2048)
+    tags = serializers.CharField(max_length=255)
+
+    def to_internal_value(self, data):
+        data = super().to_internal_value(data)
+        return services.TrainingProgramDataClass(**data)
