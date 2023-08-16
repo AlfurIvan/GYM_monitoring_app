@@ -16,9 +16,9 @@ class CustomUserAuthentication(authentication.BaseAuthentication):
 
         try:
             payload = jwt.decode(token, settings.JWT_SECRET, algorithms="HS256")
-        except:
+        except Exception:
             raise exceptions.AuthenticationFailed("Unauthorized")
 
         user = models.User.objects.filter(id=payload["id"]).first()
 
-        return (user, None)
+        return user, None

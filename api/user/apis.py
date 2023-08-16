@@ -1,5 +1,9 @@
 from rest_framework import views, response, exceptions, permissions
 
+
+from gym_store import serializer as store_serializer
+from gym_store import models as store_models
+
 from . import serializer as user_serializer
 from . import services
 from . import authentication
@@ -40,7 +44,7 @@ class LoginApi(views.APIView):
         try:
             email = request.data["email"]
             password = request.data["password"]
-        except:
+        except KeyError:
             raise exception
 
         user = services.user_email_selector(email=email)
@@ -54,23 +58,6 @@ class LoginApi(views.APIView):
         resp = response.Response()
         resp.set_cookie(key="jwt", value=token, httponly=True)
         return resp
-
-
-class UserApi(views.APIView):
-    """
-    This endpoint can only be used if user is authenticated
-
-    GET::returns User object data
-    """
-    authentication_classes = (authentication.CustomUserAuthentication, )
-    permission_classes = (permissions.IsAuthenticated, )
-
-    def get(self, request):
-        user = request.user
-
-        serializer = user_serializer.UserSerializer(user)
-
-        return response.Response(serializer.data)
 
 
 class LogoutApi(views.APIView):
@@ -91,3 +78,40 @@ class LogoutApi(views.APIView):
         resp.data = {"message": "go f_ck yourself, junk!"}
 
         return resp
+
+
+class UserApi(views.APIView):
+    """
+    This endpoint can only be used if user is authenticated
+
+    GET::returns User object data
+    """
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request):
+        user = request.user
+
+        try:
+            pass_obj = store_models.Pass.objects.get(user=user)
+            serializer = store_serializer.PassSerializer(pass_obj)
+            return response.Response(serializer.data)
+        except store_models.Pass.DoesNotExist:
+            serializer = user_serializer.UserSerializer(user)
+            return response.Response({"user": serializer.data})
+
+
+class StaffPassesAPI(views.APIView):
+
+    authentication_classes = (authentication.CustomUserAuthentication,)
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser)
+
+    def get(self, request):
+        user = request.user
+        try:
+            pass_obj = store_models.Pass.objects.filter(staff_who_released=request.user)
+            serializer = store_serializer.PassSerializer(pass_obj, many=True)
+            return response.Response(serializer.data)
+        except store_models.Pass.DoesNotExist:
+            serializer = user_serializer.UserSerializer(user)
+            return response.Response({"staff_who_released": serializer.data})

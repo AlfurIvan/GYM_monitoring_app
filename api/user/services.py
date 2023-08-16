@@ -19,6 +19,7 @@ class UserDataClass:
     email: str
     password: str = None
     id: int = None
+    is_staff: bool = False
 
     @classmethod
     def from_instance(cls, user: "User") -> "UserDataClass":
@@ -26,7 +27,8 @@ class UserDataClass:
             first_name=user.first_name,
             last_name=user.last_name,
             email=user.email,
-            id=user.id
+            id=user.id,
+            is_staff=user.is_staff
         )
 
 
@@ -40,6 +42,7 @@ def create_user(user_dc: "UserDataClass") -> "UserDataClass":
         first_name=user_dc.first_name,
         last_name=user_dc.last_name,
         email=user_dc.email,
+        is_staff=False,
     )
     if user_dc.password is not None:
         instance.set_password(user_dc.password)
