@@ -6,7 +6,7 @@ class News(models.Model):
     title = models.CharField(max_length=255)
     body = models.CharField(max_length=2048)
     pub_date = models.DateTimeField('date_published')
-    # image = models.ImageField(default=None)
+    image = models.ImageField(upload_to='news/', blank=True, null=True, default=None)
 
 
 # class NewsComment(models.Model):

@@ -8,7 +8,7 @@ class NewsSerializer(serializers.Serializer):
     title = serializers.CharField(required=True, allow_blank=True, max_length=50)
     body = serializers.CharField(required=False, allow_blank=True, max_length=500)
     pub_date = serializers.DateTimeField()
-    # image = serializers.ImageField
+    image = serializers.ImageField()
 
     def to_internal_value(self, data):
         data = super().to_internal_value(data)

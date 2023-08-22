@@ -12,6 +12,7 @@ class NewsDataClass:
     title: str
     body: str
     pub_date: datetime
+    image: str
 
     @classmethod
     def from_instance(cls, news_model: "News") -> "NewsDataClass":
@@ -20,6 +21,7 @@ class NewsDataClass:
             title=news_model.title,
             body=news_model.body,
             pub_date=news_model.pub_date,
+            image=news_model.image,
         )
 
 
