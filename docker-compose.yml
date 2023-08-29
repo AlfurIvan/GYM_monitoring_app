@@ -7,7 +7,7 @@ services:
     volumes:
       - ./api/:/usr/src/app/
 #     - media_volume:/usr/src/app/api/mediafiles ---- saving in proj dir (not in container)
-      - media_volume:/home/app/api/mediafiles  #   saving images in cont
+      - media_volume:/home/app/mediafiles  #   saving images in cont
     ports:
       - "8000:8000"
     env_file:

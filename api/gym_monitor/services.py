@@ -3,26 +3,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .models import News, TrainingProgram
-
-
-@dataclasses.dataclass
-class NewsDataClass:
-    id: int
-    title: str
-    body: str
-    pub_date: datetime
-    image: str
-
-    @classmethod
-    def from_instance(cls, news_model: "News") -> "NewsDataClass":
-        return cls(
-            id=news_model.id,
-            title=news_model.title,
-            body=news_model.body,
-            pub_date=news_model.pub_date,
-            image=news_model.image,
-        )
+    from .models import TrainingProgram
 
 
 @dataclasses.dataclass
@@ -31,6 +12,7 @@ class TrainingProgramDataClass:
     title: str
     body: str
     tags: str
+    image:str
 
     @classmethod
     def from_instance(cls, prog_model: "TrainingProgram") -> "TrainingProgramDataClass":
@@ -39,4 +21,5 @@ class TrainingProgramDataClass:
             title=prog_model.title,
             body=prog_model.body,
             tags=prog_model.tags,
+            image=prog_model.image,
         )

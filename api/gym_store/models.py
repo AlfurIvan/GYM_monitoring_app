@@ -32,9 +32,9 @@ class Product(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=2048)
     manufacturer = models.CharField(max_length=255)
-    # image =
     price = models.IntegerField()
     amount = models.IntegerField()
+    image = models.ImageField(upload_to='products/', blank=True, null=True, default=None)
 
     def product_available(self):
         return self.amount.to_python(self.amount) > 0

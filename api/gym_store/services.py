@@ -38,6 +38,7 @@ class ProductDataClass:
     manufacturer: str
     price: int
     amount: int
+    image: str
 
     @classmethod
     def from_instance(cls, prod_model: "Product") -> "ProductDataClass":
@@ -48,4 +49,5 @@ class ProductDataClass:
             manufacturer=prod_model.manufacturer,
             price=prod_model.price,
             amount=prod_model.amount,
+            image=prod_model.image,
         )

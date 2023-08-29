@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       <header className="App-header">
       <p>The date is {currentDate} and the time is {currentTime}.</p> <br/>
-          <img src="http://0.0.0.0:8000/media/Screenshot_from_2023-08-09_14-21-05.png" alt="SH"></img>
+          <img src="http://0.0.0.0:8000/media/programs/Screenshot_from_2023-08-09_14-21-05.png" alt="SH"></img>
       </header>
     </div>
   );
