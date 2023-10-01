@@ -1,9 +1,13 @@
 from datetime import datetime
 from django.http import JsonResponse
+from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import PermissionDenied
 from rest_framework import generics
+from rest_framework import views, response, exceptions, permissions
 
-from . import models
-from . import serializer
+from . import models as monitor_models
+from . import serializer as monitor_serializer
+from user import authentication
 
 
 def date_and_time(request):
@@ -20,24 +24,72 @@ def date_and_time(request):
 
 class NewsList(generics.ListAPIView):
     """
+    GET: Retrieve list of News with related objects
     """
-    queryset = models.News.objects.all()
-    serializer_class = serializer.NewsSerializer
+    queryset = monitor_models.News.objects.prefetch_related(None)
+    serializer_class = monitor_serializer.NewsSerializer
 
 
-class NewsDetail(generics.RetrieveUpdateDestroyAPIView):
+class NewsDetail(views.APIView):
     """
-    Retrieve, update or delete a code snippet.
+    GET:  Retrieve News record with related
+        comments & comments.author(User).
     """
-    queryset = models.News.objects.all()
-    serializer_class = serializer.NewsSerializer
+
+    def get(self, request, pk):
+        try:
+            news_obj = (monitor_models.News.objects
+                        .prefetch_related("comments")
+                        .get(id=pk))
+            serializer = monitor_serializer.NewsSerializer(news_obj)
+            return response.Response(serializer.data)
+        except monitor_models.News.DoesNotExist:
+            return response.Response({"error": "There is no record with this ID 0_o"})
+
+
+class CommentCreate(views.APIView):
+    """
+    POST: Creates new comment(attached to News with id=pk)
+        if user isn`t AnonymousUser & body is valid
+    """
+    authentication_classes = (authentication.CustomUserAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, pk):
+        author = request.user
+        if isinstance(author, AnonymousUser):
+            raise PermissionDenied()
+
+        try:
+            body = request.data['body']
+        except KeyError:
+            return response.Response(data={'error':'Incorrect input'})
+        else:
+
+            pub_date = datetime.now()
+            attached_to = monitor_models.News.objects.get(id=pk)
+            instance = monitor_models.NewsComment(
+                attached_to=attached_to,
+                body=body,
+                pub_date=pub_date,
+                author=author,
+            )
+            instance.save()
+
+            return response.Response(data=monitor_serializer.NewsSerializer(attached_to).data)
 
 
 class TrainingProgramList(generics.ListAPIView):
-    queryset = models.TrainingProgram.objects.all()
-    serializer_class = serializer.TrainingProgramSerializer
+    """
+    GET: Retrieve list of TrainingProgram-s
+    """
+    queryset = monitor_models.TrainingProgram.objects.all()
+    serializer_class = monitor_serializer.TrainingProgramSerializer
 
 
 class TrainingProgramDetail(generics.RetrieveAPIView):
-    queryset = models.TrainingProgram.objects.all()
-    serializer_class = serializer.TrainingProgramSerializer
+    """
+    GET: Retrieve specific TrainingProgram
+    """
+    queryset = monitor_models.TrainingProgram.objects.all()
+    serializer_class = monitor_serializer.TrainingProgramSerializer
