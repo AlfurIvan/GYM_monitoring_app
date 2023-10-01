@@ -25,6 +25,7 @@ class ProductSerializer(serializers.Serializer):
     manufacturer = serializers.CharField(max_length=255, required=True)
     price = serializers.IntegerField(required=True)
     amount = serializers.IntegerField(required=True)
+    image = serializers.ImageField()
 
     def to_internal_value(self, data):
         data = super().to_internal_value(data)

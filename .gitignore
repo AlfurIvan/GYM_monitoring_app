@@ -3,3 +3,4 @@ db.sqlite3
 /api/user/migrations/
 /api/gym_monitor/migrations/
 /api/gym_store/migrations/
+/api/mediafiles/

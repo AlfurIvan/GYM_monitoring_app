@@ -7,6 +7,7 @@ urlpatterns = [
     path('dt/', apis.date_and_time),
     path('', apis.NewsList.as_view()),
     path('<int:pk>/', apis.NewsDetail.as_view()),
+    path('<int:pk>/new', apis.CommentCreate.as_view()),
     path('programs/', apis.TrainingProgramList.as_view()),
     path('programs/<int:pk>/', apis.TrainingProgramDetail.as_view())
 ]
